@@ -25,7 +25,7 @@ $orgID = '0';
 
 </style>
 <body>
-    <h1>OFFICERS</h1>
+    <h1>SSG OFFICERS</h1>
     <table border="1" cellpadding="10" cellspacing="0">
         <tr>
             <td>#</td>
