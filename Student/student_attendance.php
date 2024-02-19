@@ -1,6 +1,7 @@
 <?php
 session_start();
 $id = $_SESSION['studentID'];
+$eventID = $_SESSION['eventID'];
 $sname = "127.0.0.1";
 $uname = "root";
 $password = "";
@@ -83,7 +84,7 @@ while ($row = mysqli_fetch_array($query)) {
         <td>{$row['eventDescription']}</td>
         <td>";
 
-    if (!($row['satRate'])  && empty($row['sugComment'])) {
+    if (!($row['satRate'])  && !($row['sugComment'])) {
         echo "<a class='btn btn-primary btn-lg active' role='button' href='feedback.php?eventID={$row['eventID']}&studentID=$id'>OPEN</a>";
     } else {
         echo "<a type='button' class='btn btn-primary btn-lg disabled' role='button'>CLOSED</a>";
@@ -104,7 +105,7 @@ while ($row1 = mysqli_fetch_array($query1)) {
       <td>{$row1['eventDescription']}</td>
       <td>";
 
-  if (!($row1['satRate'])  && empty($row1['sugComment'])) {
+  if (!($row1['satRate'])  && !($row1['sugComment'])) {
       echo "<a class='btn btn-primary btn-lg active' role='button' href='ssg_feedback.php?eventID={$row1['eventID']}&studentID=$id'>OPEN</a>";
   } else {
       echo "<a type='button' class='btn btn-primary btn-lg disabled' role='button'>CLOSED</a>";
