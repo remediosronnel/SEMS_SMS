@@ -10,10 +10,12 @@ $orgID = "";
 
 $conn = new mysqli($sname, $uname, $password, $db_name);
 
-$studentID = $_SESSION['studentID'];
+
 
 
 if (isset($_SESSION['studentID']) && isset($_SESSION['userName'])) {
+
+    $studentID = $_SESSION['studentID'];
     
     $sql = "SELECT * FROM studentorgtable WHERE studentorgtable.studentID = '$studentID'";
     $result = mysqli_query($conn, $sql);
@@ -21,7 +23,7 @@ if (isset($_SESSION['studentID']) && isset($_SESSION['userName'])) {
     $orgID = $row['org1'];
     $_SESSION['orgID'] = $row['org1'];
     $_SESSION['studentID'] = $row['studentID'];
-
+   
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +49,30 @@ if (isset($_SESSION['studentID']) && isset($_SESSION['userName'])) {
             margin-left: 10px; 
             margin-right: 10px;
         }
+        .officers-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping of items */
+        }
+
+        .officer {
+            flex: 0 0 auto; /* Allow items to grow and shrink according to content */
+            width: 200px; /* Set width of each officer */
+            margin-right: 20px; /* Adjust spacing between officers */
+            margin-bottom: 20px; /* Adjust spacing between rows */
+        }
+
+        .officer-image {
+            width: 100%; /* Ensure image fills the container */
+            border-radius: 50%; /* Make image circular */
+            border: 3px solid #fff; /* Add a border around the image */
+        }
+
+        .officer-name,
+        .officer-position {
+            display: block; /* Ensure text appears on new lines */
+            text-align: center; /* Center align text */
+        }
+      
     </style>
      <style>
         /* Style the colored dropdown container */
@@ -164,7 +190,6 @@ if (isset($_SESSION['studentID']) && isset($_SESSION['userName'])) {
             <a href="file_upload.php" style="background-color: #3498db;"> ORG OFFICERS </a>
            
             
-           
         </div>
             </div>
        
@@ -186,105 +211,92 @@ if ($result1->num_rows > 0) {
    ?>
     
 
-<div class="card--container">        
+<div class="card--container">  
+
     <div class="card--wrapper">
-    <h4>OFFICERS</h4>
-
-<div class="payment--card light-red">
-    <div class="card--header" style="display: flex; justify-content: space-around;">
-    <?php 
-                $image = $row['image'];
-                if(!empty($image)){ ?>
-
-                    <img src="img/<?php echo $image; ?>" width="25" height="25" title="<?php echo $image; ?>" id="previewImage">
-
-            <?php
-                }else{?>
-
-                    <img src="img/Upload_logo.png" width="25" height="25" title="<?php echo $image; ?>" id="previewImage">
-            <?php
-                }
-
-
-            ?>
-            <script>
-                // Get the $image variable from PHP and inject it into CSS
-                <?php if (!empty($image)): ?>
-                var backgroundImage = "url('img/<?php echo $image;?>')";
-                var style = document.createElement('style');
-                style.innerHTML = `
-                    .main--content {
-                        position: relative;
-                        background-color: #ebe9e9;
-                        width: 100%;
-                        padding: 1rem;
-                        background-image: ${backgroundImage};
-                        background-size: cover; /* Set background size to cover */
-                        background-position: center;
-                    }
-                `;
-                document.head.appendChild(style);
-                <?php endif; ?>
-            </script>                      
-    </div>
-</div>
-<break>
-<break>
-<break>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br> 
-<p>RSO ANNOUNCEMENTS</p>     
-<break>
-<br>
-<?php
-$sql = "SELECT org1 FROM studentorgtable WHERE studentorgtable.studentID = '$studentID'";
-$result = mysqli_query($conn, $sql);
-    
-    while($row = mysqli_fetch_assoc($result)){
-    $orgID = $row['org1'];
-
-    $sql1 = "SELECT * FROM eventtable WHERE eventtable.orgID = '$orgID'";
-    $result1 = $conn -> query($sql1);
-
-?>
-   
-<?php   while ($row1 = $result1->fetch_assoc()) {
-?>
-    <div class="card-wrapper">
-                <div class="payment--card light-red" >
+    <div class="payment--card light-red" >
                     <div class="card--header">
                         <div class="amount">
-                            <span class="title">
-                                <?php 
-                                    echo "ORG NAME:"." ".$row1['orgName'];
-                                    echo "<strong><h3>On Going Event: ".$row1["eventDescription"] ."</h3></strong>".
-                                    "Event Date: ".$row1["eventDate"]." ".$row1['eventTime'];
-                                   
+                        <?php 
+                                    $query = "SELECT * FROM rsotable";
+                                    $result = mysqli_query($conn, $query);
+                                    $totalCount = mysqli_num_rows($result); 
+                                    echo $totalCount;   
                                 ?>
+                            <span class="title">
+                                
                             </span>
                             <span class="amount-value">
-                               
+                                
                             </span> 
                         </div>
-                            <i class="fa-solid fa-info icon"> </i>
+                            <i class="fa-solid fa-user icon"> </i>
                     </div>
                     <span class="card-detail"> 
                     </span>
-                </div> 
-             </div>    
-      <br>
+                </div>
+ 
 
 
-<?php
-    }
-}
-}
-?>
 <br>
+
+
+
+
+<br>  
+<?php
+}
+// Assuming $studentID is already defined
+$sql_orgs = "SELECT DISTINCT org1 FROM studentorgtable WHERE studentorgtable.studentID = '$studentID'";
+$result_orgs = mysqli_query($conn, $sql_orgs);
+echo '<p>RSO ANNOUNCEMENTS</p>';
+// Check if there are any organizations for the student
+if (mysqli_num_rows($result_orgs) > 0) {
+    while ($row_org = mysqli_fetch_assoc($result_orgs)) {
+        $orgID1 = $row_org['org1'];
+
+        // Fetch events for each organization
+        $sql_events = "SELECT * FROM eventtable WHERE eventtable.orgID = '$orgID1'";
+        $result_events = mysqli_query($conn, $sql_events);
+
+        // Check if there are events for the current organization
+        if (mysqli_num_rows($result_events) > 0) {
+            while ($row_event = mysqli_fetch_assoc($result_events)) {
+                ?>
+                <div class="card-wrapper">
+                    <div class="payment--card light-red">
+                        <div class="card--header">
+                            <div class="amount">
+                                <span class="title">
+                                    <?php 
+                                        echo "ORG NAME: ".$row_event['orgName']."<br>";
+                                        echo "<strong>On Going Event: ".$row_event['eventDescription']."</strong><br>".
+                                             "Event Date: ".$row_event['eventDate']." ".$row_event['eventTime'];   
+                                    ?>
+                                </span>
+                                <span class="amount-value">
+                                    <!-- Additional content -->
+                                </span> 
+                            </div>
+                            <i class="fa-solid fa-info icon"> </i>
+                        </div>
+                        <span class="card-detail"> 
+                            <!-- Additional content -->
+                        </span>
+                    </div> 
+                </div>    
+                <br>
+                <?php
+            }
+        }
+    }
+
+} else {
+
+}
+
+?>
+
 <br>
 <?php
 $sql2 = "SELECT * FROM eventtable WHERE eventtable.orgID = '0'";

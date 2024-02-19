@@ -182,6 +182,8 @@ if (isset($_SESSION['orgID']) && isset($_SESSION['userName']) && isset($_SESSION
         </div>
             </div>
             <?php 
+
+
                 $image = $row['image'];
                 if(!empty($image)){ ?>
 
@@ -287,8 +289,9 @@ $result = $conn -> query($sql);
         
  <?php 
 } 
-
 ?>
+
+
 <?php
 
 }

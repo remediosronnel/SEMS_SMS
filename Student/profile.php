@@ -27,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $yearLevel = $_POST["yearLevel"];
     $courseS = $_POST["courseS"];
     $contactNo = $_POST["contactNo"];
+    $userName = $_POST["userName"];
+    $passWord = $_POST["passWord"];
     
 
     // Validate and update database
@@ -36,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             break;
         } else {
             // Update user information
-            $sql = "UPDATE studenttable SET firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', yearLevel = '$yearLevel', courseS = '$courseS', contactNo = '$contactNo' WHERE studentID = '$studentID'";
+            $sql = "UPDATE studenttable SET firstName = '$firstName', middleName = '$middleName', lastName = '$lastName', yearLevel = '$yearLevel', courseS = '$courseS', contactNo = '$contactNo', userName = '$userName', passWord = '$passWord' WHERE studentID = '$studentID'";
             $query = $conn->query($sql);
 
             // Check if the query was successful
@@ -159,8 +161,23 @@ $row = $query1->fetch_assoc();
                        value="<?php echo $row['contactNo'] ?>">
             </div>
         </div>
-        
-      
+        <div class="row mb-3">
+            <label for="col-sm-3 col-form-label">Username</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="userName" id="userName"
+                       value="<?php echo $row['userName'] ?>">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="col-sm-3 col-form-label">Password</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="passWord" id="passWord"
+                       value="<?php echo $row['passWord'] ?>">
+            </div>
+        </div>
+    
+
+
 
         <div class="row mb-3">
             <div class="col-sm-3 d-grid">
@@ -172,9 +189,10 @@ $row = $query1->fetch_assoc();
                 <a class="btn btn-outline-primary" href="home.php" role="button">Cancel</a>
             </div>
         </div>
+    </div>
     </form>
 
     
-</div>
+
 </body>
 </html>
