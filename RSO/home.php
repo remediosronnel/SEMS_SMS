@@ -111,7 +111,7 @@ if (isset($_SESSION['orgID']) && isset($_SESSION['userName']) && isset($_SESSION
   
     
 </head>
-<body >
+<body>
     <div class="sidebar">
         <div class="logo">
         
@@ -147,15 +147,17 @@ if (isset($_SESSION['orgID']) && isset($_SESSION['userName']) && isset($_SESSION
                     <span>PROFILE</span>
                 </a>
             </li>
-
-            <form method="POST" action="logout.php" onsubmit="return submitForm(this);">
-            <li >
-                <a href="#" id="logout" onclick="confirmLogout()">
-                    <i class="fa-solid fa-xmark"></i>
-                    <span>LOGOUT</span>
-                </a>
-            </li>
-            </form>
+        
+        <form id="logoutForm" method="POST" action="logout.php" onclick="return confirmLogout()">
+         
+                <li>
+                    <a href="#" id="logout">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>LOGOUT</span>
+                    </a>
+                </li>
+            
+        </form>
         </ul>
     </div>
 <!-- dashboard area -->
@@ -169,6 +171,7 @@ if (isset($_SESSION['orgID']) && isset($_SESSION['userName']) && isset($_SESSION
        
             <div class="search-box">
             <div class="colored-dropdown">
+
         <button class="colored-dropbtn"> MENU </button>
         <div class="colored-dropdown-content">
             <a href="event_list.php" style="background-color: #3498db;"> ATTENDANCE LIST </a>
@@ -176,9 +179,6 @@ if (isset($_SESSION['orgID']) && isset($_SESSION['userName']) && isset($_SESSION
             <a href="student_list.php" style="background-color: #3498db;"> STUDENT </a>
             <a href="announcement_list.php" style="background-color: #3498db;"> ANNOUNCEMENT </a>
             <a href="officers.php" style="background-color: #3498db;"> ORG OFFICERS </a>
-           
-            
-           
         </div>
             </div>
             <?php 
@@ -193,8 +193,6 @@ if (isset($_SESSION['orgID']) && isset($_SESSION['userName']) && isset($_SESSION
                     <img src="img/Upload_logo.png" width="25" height="25" title="<?php echo $image; ?>" id="previewImage">
             <?php
                 }
-
-
             ?>
             <script>
                 // Get the $image variable from PHP and inject it into CSS
@@ -225,12 +223,6 @@ if (isset($_SESSION['orgID']) && isset($_SESSION['userName']) && isset($_SESSION
         
     <!-- CARD1 -->
 <?php
-$sname = "127.0.0.1";
-$uname = "root";
-$password = "";
-$db_name = "lazaca";
-
-$conn = mysqli_connect($sname, $uname, $password, $db_name);
 
 $sql = "SELECT count(*) FROM studenttable";
 $result = $conn -> query($sql);
@@ -263,9 +255,6 @@ $result = $conn -> query($sql);
 
               
                 
-
-                         
-                
 <!-- /* CARD 2 */ -->
                
             </div>
@@ -289,8 +278,7 @@ $result = $conn -> query($sql);
                                 ?>
                         </tr>
                         <tbody>
-                            <tr>
-                            </tr>
+                            
                         </tbody>
                     </thead>
                 </table>
@@ -303,39 +291,30 @@ $result = $conn -> query($sql);
 ?>
 <?php
 
-}else{
-     header("Location: index.php");
-     exit();
 }
 
  ?>
     </div>
-    <script src="sweetalert.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <script>
-            function confirmLogout() {
-                    Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You will be logged out',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, logout!'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // If user confirms, redirect to logout page or perform logout action
-                                        window.location.href = 'logout.php'; // Change the URL to your logout script
-                                    }
-                                });
-                            }         
-        </script>
-
-
-
-
-
-    
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will be logged out',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, logout!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, submit the form for logout
+                    document.getElementById("logoutForm").submit();
+                }
+            });
+            return false; // Prevent form submission
+        }
+    </script>
 </body>
+
 </html>

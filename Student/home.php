@@ -192,29 +192,40 @@ if ($result1->num_rows > 0) {
 
 <div class="payment--card light-red">
     <div class="card--header" style="display: flex; justify-content: space-around;">
-        <?php    
-   
-        $sql4 = "SELECT * FROM officertable where orgID = '$orgID'";
-        $result4 = $conn->query($sql4);
+    <?php 
+                $image = $row['image'];
+                if(!empty($image)){ ?>
 
-        while ($row4 = $result4->fetch_assoc()) {
-            $offName = $row4["officer_name"];
-            $offPosition = $row4["officer_position"];
-            $offImage = $row4["image_path"];
-          
-          
+                    <img src="img/<?php echo $image; ?>" width="25" height="25" title="<?php echo $image; ?>" id="previewImage">
 
-            echo "<div style='text-align: center;'>";
-            echo "<div class='circular--landscape'>";
-            echo "<img src='/SSG/RSO/img/RSO_image/$offImage' />";
-            echo "</div>";
-            echo "<p>$offName</p>";
-            echo "<p>$offPosition</p>";
-            echo "</div>";     
-            // Repeat the same pattern for other officers
-        
-    }
-        ?>
+            <?php
+                }else{?>
+
+                    <img src="img/Upload_logo.png" width="25" height="25" title="<?php echo $image; ?>" id="previewImage">
+            <?php
+                }
+
+
+            ?>
+            <script>
+                // Get the $image variable from PHP and inject it into CSS
+                <?php if (!empty($image)): ?>
+                var backgroundImage = "url('img/<?php echo $image;?>')";
+                var style = document.createElement('style');
+                style.innerHTML = `
+                    .main--content {
+                        position: relative;
+                        background-color: #ebe9e9;
+                        width: 100%;
+                        padding: 1rem;
+                        background-image: ${backgroundImage};
+                        background-size: cover; /* Set background size to cover */
+                        background-position: center;
+                    }
+                `;
+                document.head.appendChild(style);
+                <?php endif; ?>
+            </script>                      
     </div>
 </div>
 <break>
