@@ -214,29 +214,17 @@ if ($result1->num_rows > 0) {
 <div class="card--container">  
 
     <div class="card--wrapper">
-    <div class="payment--card light-red" >
-                    <div class="card--header">
-                        <div class="amount">
-                        <?php 
-                                    $query = "SELECT * FROM rsotable";
-                                    $result = mysqli_query($conn, $query);
-                                    $totalCount = mysqli_num_rows($result); 
-                                    echo $totalCount;   
-                                ?>
-                            <span class="title">
-                                
-                            </span>
-                            <span class="amount-value">
-                                
-                            </span> 
-                        </div>
-                            <i class="fa-solid fa-user icon"> </i>
-                    </div>
-                    <span class="card-detail"> 
-                    </span>
-                </div>
- 
 
+
+   
+    <div class="tabular--wrapper">
+            <h3 class="main--tile">RSO ANNOUNCEMENTS</h3>
+            <div class="table-container">
+                <?php 
+                    echo 'gwapa ka?';
+                ?>
+            </div>
+        </div>
 
 <br>
 
