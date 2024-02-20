@@ -196,6 +196,34 @@ if (isset($_SESSION['studentID']) && isset($_SESSION['userName'])) {
             </div>
         </div>
 <?php
+    $sql5 = "SELECT * FROM officertable where orgID = '0'";
+    $result5 = $conn -> query($sql5);
+   
+
+?>
+
+        <div class="tabular--wrapper">
+            <h3 class="main--tile"></h3>
+            <div class="table-container">
+
+               <?php 
+               while ($row5 = mysqli_fetch_assoc($result5)) {
+                   $image = $row5['image_path'];
+                   echo "<div style='display: inline-block; text-align: center; margin-right: 20px;'>";
+                   echo "<img src='/SSG/img/$image' width='75' height='75' title='$image'>";
+                   echo '<br>';
+                   echo $row5['officer_name'];
+                   echo '<br>';
+                   echo $row5['officer_position'];
+                   echo "</div>";
+               }
+               
+            ?>
+            </div>
+        </div>     
+
+
+<?php
 
 
 $conn = mysqli_connect($sname, $uname, $password, $db_name);
@@ -204,6 +232,10 @@ $sql = "SELECT count(*) FROM rsotable";
 $result = $conn -> query($sql);
 
 ?>
+
+
+
+
 <?php
  $sql1 = "SELECT * FROM eventtable WHERE eventtable.orgID = '$orgID'";
  $result1 = $conn -> query($sql1);
@@ -217,21 +249,6 @@ if ($result1->num_rows > 0) {
 
 
    
-    <div class="tabular--wrapper">
-            <h3 class="main--tile">RSO ANNOUNCEMENTS</h3>
-            <div class="table-container">
-                <?php 
-                    echo 'gwapa ka?';
-                ?>
-            </div>
-        </div>
-
-<br>
-
-
-
-
-<br>  
 <?php
 }
 // Assuming $studentID is already defined
