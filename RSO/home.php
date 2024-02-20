@@ -181,6 +181,15 @@ if (isset($_SESSION['orgID']) && isset($_SESSION['userName']) && isset($_SESSION
             <a href="officers.php" style="background-color: #3498db;"> ORG OFFICERS </a>
         </div>
             </div>
+
+
+
+
+
+
+
+
+
             <?php 
 
 
@@ -222,6 +231,35 @@ if (isset($_SESSION['orgID']) && isset($_SESSION['userName']) && isset($_SESSION
             </div>
         </div>
 
+        <?php
+    $sql5 = "SELECT * FROM officertable where orgID = '0'";
+    $result5 = $conn -> query($sql5);
+    
+
+?>
+        <div class="tabular--wrapper">
+            <h3 class="main--tile"></h3>
+            <div class="table-container">
+
+            <P>SSG OFFICERS </P>
+               <?php 
+
+               while ($row5 = mysqli_fetch_assoc($result5)) {
+                   $image = $row5['image_path'];
+                   echo "<div style='display: inline-block; text-align: center; margin-right: 20px;'>";
+                   echo "<img src='/SSG/img/$image' width='75' height='75' title='$image'>";
+                   echo '<br>';
+                   echo $row5['officer_name'];
+                   echo '<br>';
+                   echo $row5['officer_position'];
+                   echo "</div>";
+               }
+               
+            ?>
+            </div>
+        </div>     
+<br>
+
         
     <!-- CARD1 -->
 <?php
@@ -232,17 +270,65 @@ $result = $conn -> query($sql);
 
 ?>
         <div class="card--container">
-            <h3 class="main--title">Today's Data</h3>
+            <h3 class="main--title">Member's Data</h3>
             <div class="card-wrapper">
                 <div class="payment--card light-red" >
                     <div class="card--header">
                         <div class="amount">
                             <span class="title">
-                                TOTAL STUDENT ADDED
+                                TOTAL MEMBER ADDED
                             </span>
                             <span class="amount-value"><h6>
                                 <?php 
                                     $query = "SELECT * FROM studentorgtable where studentorgtable.org1 = $orgID";
+                                    $result = mysqli_query($conn, $query);
+                                    $totalCount = mysqli_num_rows($result); 
+                                    echo $totalCount;   
+                                ?>  </h6>
+                            </span> 
+                        </div>
+                            <i class="fa-solid fa-user icon"> </i>
+                    </div>
+                    <span class="card-detail"> 
+                    </span>
+                </div>
+
+                <div class="payment--card light-red" >
+                    <div class="card--header">
+                        <div class="amount">
+                            <span class="title">
+                                TOTAL ACTIVE MEMBER 
+                            </span>
+                            <span class="amount-value"><h6>
+                                <?php 
+                                    $query = "SELECT *
+                                    FROM studenttable
+                                    INNER JOIN studentorgtable ON studenttable.studentID = studentorgtable.studentID
+                                    WHERE studentorgtable.org1 = '$orgID' AND studenttable.Status = 'Active'";
+                                    $result = mysqli_query($conn, $query);
+                                    $totalCount = mysqli_num_rows($result); 
+                                    echo $totalCount;   
+                                ?>  </h6>
+                            </span> 
+                        </div>
+                            <i class="fa-solid fa-user icon"> </i>
+                    </div>
+                    <span class="card-detail"> 
+                    </span>
+                </div>
+
+                <div class="payment--card light-red" >
+                    <div class="card--header">
+                        <div class="amount">
+                            <span class="title">
+                                TOTAL INACTIVE MEMBER 
+                            </span>
+                            <span class="amount-value"><h6>
+                                <?php 
+                                    $query = "SELECT *
+                                    FROM studenttable
+                                    INNER JOIN studentorgtable ON studenttable.studentID = studentorgtable.studentID
+                                    WHERE studentorgtable.org1 = '$orgID' AND studenttable.Status = 'Inactive'";
                                     $result = mysqli_query($conn, $query);
                                     $totalCount = mysqli_num_rows($result); 
                                     echo $totalCount;   

@@ -205,7 +205,7 @@ if (isset($_SESSION['studentID']) && isset($_SESSION['userName'])) {
         <div class="tabular--wrapper">
             <h3 class="main--tile"></h3>
             <div class="table-container">
-
+            <P>SSG OFFICERS </P>
                <?php 
                while ($row5 = mysqli_fetch_assoc($result5)) {
                    $image = $row5['image_path'];
